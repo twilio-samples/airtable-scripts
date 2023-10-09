@@ -1,4 +1,5 @@
 A collection of Airtable scripts to call Twilio APIs.
+These are specifically written for the Scripting Extension Tool which runs in the browser
 
 ## Contents:
 
