@@ -7,10 +7,12 @@ This repo contains scripts, automations, and code snippets that add deeper Twili
   Suggestions for saving secrets and code snippets for authentication
 ### [scripts](/scripts/)
   One off scripts for using Twilio in Airtable
-### [projects](/projects/)
+  
+<!-- To Do: -->
+<!-- ### [projects](/projects/)
   Collections of related scripts into bigger projects
 ### [formulas](/formulas/)
-  Useful field level formulas for Airtable
+  Useful field level formulas for Airtable -->
 
 ## Getting Started
 
