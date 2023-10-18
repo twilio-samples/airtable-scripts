@@ -36,6 +36,9 @@ urlencoded.append("To", phone);
 urlencoded.append("From", secrets.Phone_Number);
 urlencoded.append("Body", "Ahoy from inside an Airtable");
 
+// Optional: add status callback to store message status in Airtable
+urlencoded.append("StatusCallback", "YOUR_AIRTABLE_WEBHOOK_URL")
+
 // Set the request options
 var requestOptions = {
   method: "POST",
