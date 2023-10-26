@@ -3,18 +3,14 @@
 const table = "Habits";
 // 2. Configure the fields to be sent to Studio
 const fields = ["habit_text", "phone"]
+// 3. Set you Twilio Account Info
+const ACCOUNT_SID = "<TWILIO_ACCOUNT_SID>";
+const AUTH_TOKEN = "<TWILIO_AUTH_TOKEN>";
+const FROM_PHONE = "<YOUR_TWILIO_PHONE_NUMBER>";
+const STUDIO_URL = "<YOUR_TWILIO_STUDIO_API_URL>";
+// WARNING: the API credentials will be visible to all collaborators
 
-
-// Get Secrets
-const secrets = await base.getTable("Secrets")
-    .selectRecordsAsync({fields: ["key", "value"]})
-    .then((results) => {
-        let s = {};
-        results.records.forEach((r) => {
-            s[r.getCellValue("key")] = r.getCellValue("value");
-        });
-        return s;
-    });
+// ----- Done with configuration ----- //
 
 // Pick the record
 let record = await input.recordAsync(
@@ -26,21 +22,13 @@ let record = await input.recordAsync(
 // Create header
 var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-myHeaders.append("Authorization", `Basic ${btoa(secrets.Account_SID + ":" + secrets.Auth_Token)}`);
+myHeaders.append("Authorization", `Basic ${btoa(ACCOUNT_SID + ":" + AUTH_TOKEN)}`);
 
 // Create body
 var urlencoded = new URLSearchParams();
 urlencoded.append("To", record.getCellValue("phone"));
-urlencoded.append("From", secrets.Phone_Number);
-
-// Turn all the fields into parameters to send to Studio
-var params = {"id": record.id};
-  fields.forEach((field) => {
-    params[field] = record.getCellValue(field);
-  });
-JSON.stringify(params);
-urlencoded.append("Parameters",JSON.stringify(params));
-
+urlencoded.append("From", FROM_PHONE);
+urlencoded.append("Parameters",JSON.stringify(inputConfig));
 
 // Put the request together
 var requestOptions = {
@@ -51,6 +39,6 @@ var requestOptions = {
 };
 
 // Send request
-let apiResponse = await fetch(secrets.Studio_URL,
+let apiResponse = await fetch(STUDIO_URL,
     requestOptions
 );
