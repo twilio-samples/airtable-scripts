@@ -1,41 +1,43 @@
-// Get Secrets
-const secrets = await base.getTable("Secrets")
-    .selectRecordsAsync({fields: ["key", "value"]})
-    .then((results) => {
-        let s = {};
-        results.records.forEach((r) => {
-            s[r.getCellValue("key")] = r.getCellValue("value");
-        });
-        return s;
-    });
+// Configuration: Chase these lines to configure the script
+// 1. Configure the table to be used in the script
+const table = "Table_Name";
+// 2. Configure the fields to be sent to Studio
+const fields = ["field_1", "field_2", "field_3"];
+// 3. Set you Twilio Account Info
+const ACCOUNT_SID = "<TWILIO_ACCOUNT_SID>";
+const AUTH_TOKEN = "<TWILIO_AUTH_TOKEN>";
+const FROM_PHONE = "<YOUR_TWILIO_PHONE_NUMBER>";
+const STUDIO_URL = "<YOUR_TWILIO_STUDIO_API_URL>";
+// WARNING: the API credentials will be visible to all collaborators
+
+// ----- Done with configuration ----- //
 
 // Pick the record
-let habit = await input.recordAsync(
-    "Select a habit",
-    base.getTable("Habits")
-);
+let record = await input.recordAsync("Select a record", base.getTable(table), {
+  fields: fields,
+});
 
 // Create header
 var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-myHeaders.append("Authorization", `Basic ${btoa(secrets.Account_SID + ":" + secrets.Auth_Token)}`);
+myHeaders.append(
+  "Authorization",
+  `Basic ${btoa(ACCOUNT_SID + ":" + AUTH_TOKEN)}`
+);
 
 // Create body
 var urlencoded = new URLSearchParams();
-urlencoded.append("To", habit.getCellValue("phone"));
-urlencoded.append("From", secrets.Phone_Number);
-urlencoded.append("Parameters",`{"text":"${habit.getCellValue("habit_text")}", "id":"${habit.id}"}`);
-// Be careful about to follow the format for custom parameters 
+urlencoded.append("To", record.getCellValue("phone"));
+urlencoded.append("From", FROM_PHONE);
+urlencoded.append("Parameters", JSON.stringify(inputConfig));
 
 // Put the request together
 var requestOptions = {
-    method: "POST",
-    headers: myHeaders,
-    body: urlencoded,
-    redirect: "follow",
+  method: "POST",
+  headers: myHeaders,
+  body: urlencoded,
+  redirect: "follow",
 };
 
 // Send request
-let apiResponse = await fetch(secrets.Studio_URL,
-    requestOptions
-);
+let apiResponse = await fetch(STUDIO_URL, requestOptions);
