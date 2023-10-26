@@ -1,3 +1,10 @@
+// Configuration: Chase these lines to configure the script
+// 1. Configure the table to be used in the script
+const table = "Habits";
+// 2. Configure the fields to be sent to Studio
+const fields = ["habit_text", "phone"]
+
+
 // Get Secrets
 const secrets = await base.getTable("Secrets")
     .selectRecordsAsync({fields: ["key", "value"]})
@@ -10,9 +17,10 @@ const secrets = await base.getTable("Secrets")
     });
 
 // Pick the record
-let habit = await input.recordAsync(
-    "Select a habit",
-    base.getTable("Habits")
+let record = await input.recordAsync(
+    "Select a record",
+    base.getTable(table),
+    {"fields": fields}
 );
 
 // Create header
@@ -22,10 +30,17 @@ myHeaders.append("Authorization", `Basic ${btoa(secrets.Account_SID + ":" + secr
 
 // Create body
 var urlencoded = new URLSearchParams();
-urlencoded.append("To", habit.getCellValue("phone"));
+urlencoded.append("To", record.getCellValue("phone"));
 urlencoded.append("From", secrets.Phone_Number);
-urlencoded.append("Parameters",`{"text":"${habit.getCellValue("habit_text")}", "id":"${habit.id}"}`);
-// Be careful about to follow the format for custom parameters 
+
+// Turn all the fields into parameters to send to Studio
+var params = {"id": record.id};
+  fields.forEach((field) => {
+    params[field] = record.getCellValue(field);
+  });
+JSON.stringify(params);
+urlencoded.append("Parameters",JSON.stringify(params));
+
 
 // Put the request together
 var requestOptions = {

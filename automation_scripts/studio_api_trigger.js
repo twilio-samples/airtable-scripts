@@ -39,3 +39,11 @@ var requestOptions = {
 let apiResponse = await fetch(secrets.Studio_URL,
     requestOptions
 );
+
+function parametrize(fields, entry) {
+  let params = {};
+  fields.forEach((field) => {
+    params[field] = entry.getCellValue(field);
+  });
+  return JSON.stringify(params);
+}
