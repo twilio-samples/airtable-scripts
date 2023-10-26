@@ -6,19 +6,9 @@ This repo contains scripts, automations, and code snippets that add deeper Twili
 ### [authentication](/authentication/)
   Suggestions for saving secrets and code snippets for authentication
 ### [scripts](/scripts/)
-  One off scripts for using Twilio in Airtable
-  
-<!-- To Do: -->
-<!-- ### [projects](/projects/)
-  Collections of related scripts into bigger projects
-### [formulas](/formulas/)
-  Useful field level formulas for Airtable -->
-
-## Getting Started
-
-Start by looking at the Auth and Secrets folder. In this folder you will find:
-1. Suggestions for setting up and saving and accessing Twilio secrets (like Account SID and Auth Token) in a table.
-1. Two methods for authenticating with Twilio when you make an API call in a script or automation
+  Scripts for using Twilio in Airtable via Extension > Scripting
+### [automation_scripts](/automation_scripts/)
+  Scripts for using Twilio in Airtable via Automations > Run a script
 
 ## Thoughts and Musings
 
