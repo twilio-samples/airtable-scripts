@@ -8,6 +8,8 @@ const STUDIO_URL = "<YOUR_TWILIO_STUDIO_API_URL>";
 
 // All other configuration is done in the Airtable UI
 // via "Input Variables" on the left side of the "Edit Script" dialog
+// Make sure to include a variable named "to_phone" (case sensitive) which is the phone number to send the message to
+
 
 // ----- Done with configuration ----- //
 
@@ -23,7 +25,7 @@ myHeaders.append("Authorization", `Basic ${base64.encode(ACCOUNT_SID + ":" + AUT
 
 // Create body
 var urlencoded = new URLSearchParams();
-urlencoded.append("To", `${inputConfig.phone}`);
+urlencoded.append("To", `${inputConfig.to_phone}`);
 urlencoded.append("From", FROM_PHONE);
 
 // Turn all the inputs into parameters to send to Studio
